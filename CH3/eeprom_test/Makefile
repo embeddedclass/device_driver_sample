@@ -1,0 +1,20 @@
+# ----------------------------------------------------------------------------
+# Makefile for building tapp
+
+CFLAGS				= -Wall -O2 -static
+CC				= $(CROSS_COMPILE)gcc
+INSTALL				= install
+TARGET				= $(eeprom_i2c_test)
+
+
+eeprom_i2c_test: eeprog.o 24cXX.o
+	$(CC) $(CFLAGS) $^ -o $@
+
+
+install: $(TARGET)
+	cp -a i2c $(INSTALLDIR)
+
+clean distclean:
+	rm -rf *.o $(TARGET)
+
+.PHONY: $(PHONY) install clean distclean

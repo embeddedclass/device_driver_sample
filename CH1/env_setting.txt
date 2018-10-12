@@ -1,0 +1,130 @@
+======================================================
+Develop Environment Setting
+======================================================
+
+1. install gtkterm
+	#sudo apt-get install gtkterm
+
+2. install geany
+	#sudo apt-get install geany
+
+3. install toolchan
+	# cd ~/
+	# cd ~/tiny4412/toolchain/
+	# tar -xvf ./gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabi.tar.xz 
+
+
+4. setting toolchain
+	#source set_arm_4412_toolchain_path.sh
+
+
+5. install library
+	#sudo apt-get install autoconf automake libtool libexpat1-dev \
+	libncurses5-dev bison flex patch curl cvs texinfo git bc \
+	build-essential git gawk python-dev gperf unzip \
+	pkg-config wget  libusb-dev fastboot
+
+
+
+
+
+
+
+======================================================
+set_arm_4412_toolchain_path.sh
+======================================================
+
+1. open the set_arm_4412_toolchain_path.sh
+	#geany set_arm_4412_toolchain_path.sh
+
+2. we can found below Linux shell code ...
+	#######################
+	#!/bin/sh
+	PATH=$PATH:PATH:/home/cadtc/tiny4412/toolchain/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabi/bin/
+	export CROSS_COMPILE=arm-linux-gnueabi-
+	export ARCH=arm
+	########################
+
+
+
+======================================================
+Setting and Test Tool chain
+======================================================
+
+1. setting cross compile 
+	# source ~/tiny4412/experiment/set_arm_4412_toolchain_path.sh.sh
+
+2. check toolchain
+	#`(echo $CROSS_COMPILE )`gcc -v
+
+3. test tool chain to build example application (hello_word.c)
+	# cd ~/tiny4412/experiment/day1
+	# arm-linux-gnueabi-gcc ./hello_test.c -o hello_test
+        # file hello_test
+
+
+
+======================================================
+Update Linux kernel and rootFS to eMMC
+======================================================
+
+ A. Linux kernel
+        [Target_board Side]
+        1. fastboot
+    
+        [Host Side]
+	1. cd ~/tiny4412/image_file
+	2. sudo fastboot flash kernel ./zImage
+
+ B. rootFS
+        [Target_board Side]
+        1. fastboot
+    
+        [Host Side]
+	2. sudo fastboot flash system rootfs_ext2.img
+
+
+
+C. Create user in Targetboard ### 
+		1. adduser test
+		2. mkdir -p /home/test
+		3. chmod -R 755 /home/
+		4. chown -R test:test 755 /home/
+
+
+D. Boot into Linux kernel
+	3. do scp command test
+		[Target]
+		1. # ifconfig
+		4. # cat /home/test/testme
+
+		[Host]
+		2. touch ./test_me && echo "test hello" > ./test_me
+		3. # scp ./test_me test@192.168.0.18:/home/test
+
+
+
+
+
+
+===================================================================
+Downlaod Linux Kernel Source code and build
+===================================================================
+	1. cd ~/tiny4412/
+	2. git clone https://github.com/embeddedclass/kernel_3_5_0.git
+	3. cd kernel_3_5_0
+	4. make -j4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
